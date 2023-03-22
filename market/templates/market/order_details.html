@@ -1,0 +1,52 @@
+{% extends 'market/layout.html' %}
+
+
+{% block content %}
+
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <h1 class="text-center mb-5">Детали заказа № {{ order_id }} от {{ user_name }}</h1>
+      <table class="table table-hover table-bordered">
+        <thead class="table-primary">
+          <tr>
+            <th>Товар</th>
+            <th class="text-center">Цена за единицу</th>
+            <th class="text-center">Количество</th>
+            <th class="text-center">Итого</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for item in order.products %}
+            {% set product = item.product %}
+            {% set quantity = item.quantity %}
+            {% set price = product.price %}
+            {% set item_price = quantity * price %}
+            {% set total_price = total_price + item_price %}
+            <tr>
+              <td>
+                <div class="d-flex align-items-center">
+                  <div class="me-3">
+                                    
+                  </div>
+                  {{ product.name }}
+                </div>
+              </td>
+              <td class="text-center">{{ price }} руб.</td>
+              <td class="text-center">{{ quantity }}</td>
+              <td class="text-center">{{ item_price }} руб.</td>
+            </tr>
+          {% endfor %}
+          <tr class="table-secondary">
+            <td colspan="3" class="text-end"><strong>Итого:</strong></td>
+            <td class="text-center"><strong>{{ total_price }} руб.</strong></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+
+
+{% endblock %}
