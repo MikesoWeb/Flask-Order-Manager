@@ -1,12 +1,24 @@
 
-products = [
-    {'name': 'Горбуша', 'quantity': 0, 'price': 93.0},
-    {'name': 'Икра из кабачков', 'quantity': 0, 'price': 60.0},
-    {'name': 'Кальмар натуральный', 'quantity': 0, 'price': 75.0},
-    {'name': 'Камбала натуральная', 'quantity': 0, 'price': 65.0},
-    {'name': 'Кета', 'quantity': 0, 'price': 90.0},
-    {'name': 'Кижуч', 'quantity': 0, 'price': 105.0},
-    {'name': 'Килька Крымская', 'quantity': 0, 'price': 57.0},
-    {'name': 'Килька с овощами по-венгерски', 'quantity': 0, 'price': 69.0},
-]
+from market.models import Product
+from market.models import db
 
+product_names = ['Горбуша', 'Икра из кабачков', 'Кальмар натуральный', 'Камбала натуральная', 'Кета', 'Кижуч', 'Килька Крымская', 'Килька с овощами по-венгерски', 'Килька с овощами по-гавайски', 'Килька с овощами по-мексикански', 'Кукуруза глобал',  'Лосось', 'Масло подс.', 'Молоко сгущ.', 'Мясо цыплёнка', 'Наггетсы', 'Нерка', 'Печень и икра минтая натуральная',
+                 'Печень минтая приморская', 'Сайра', 'Салат из морской капусты', 'Сардина атлантическая', 'Сардина в масле', 'Сельдь натуральная', 'Семга', 'Скумбрия натуральная', 'Томатная паста Иран 850', 'Томаты в банках', 'Тушенка говядина', 'Тушенка свинина', 'Тушеное мясо цыпленка', 'Фасоль белая', 'Фасоль красная', 'Шпроты ж/б', 'Шпроты ст/б Экстра']
+
+product_quantities = [93, 60, 75, 65, 90, 105, 57, 69, 69, 69, 59, 93, 95, 96, 69, 250,
+                      105, 69, 69, 108, 59, 55, 57, 49, 105, 64, 139, 65, 149, 137, 69, 49, 49, 89, 117]
+
+products = []
+
+for i in range(len(product_names)):
+    product = {'name': product_names[i], 'price': product_quantities[i]}
+    products.append(product)
+
+
+def add_products_to_db(products):
+    if not Product.query.filter_by(initialized=True).first():
+        for p in products:
+            product = Product(name=p['name'], price=p['price'])
+            db.session.add(product)
+        Product.query.update({Product.initialized: True})
+        db.session.commit()

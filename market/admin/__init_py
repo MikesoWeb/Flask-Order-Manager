@@ -1,0 +1,19 @@
+from flask import Blueprint
+from flask_admin import Admin
+
+from market import app_ctx
+from market.admin import admin_bp
+from market.admin.views import OrderView, ProductView
+from market.models import Order, Product, db
+
+from . import routes
+
+admin_bp = Blueprint('admin_bp', __name__)
+
+
+admin = Admin(name='Online Market', template_mode='bootstrap3')
+admin.add_view(ProductView(Product, db.session))
+admin.add_view(OrderView(Order, db.session))
+
+
+app_ctx.register_blueprint(admin_bp, url_prefix='/admin')

@@ -1,9 +1,11 @@
 from flask import flash, redirect, url_for
 from flask_wtf import FlaskForm
+from wtforms import (FieldList, FloatField, FormField, HiddenField,
+                     IntegerField, StringField, SubmitField)
+from wtforms.validators import (DataRequired, InputRequired, NumberRange,
+                                Optional)
+
 from market.models import Product, db
-from wtforms import SubmitField, IntegerField, StringField, FormField, HiddenField
-from wtforms import StringField, IntegerField, SubmitField, FloatField, FieldList
-from wtforms.validators import DataRequired, NumberRange, Optional, InputRequired
 
 
 class ProductForm(FlaskForm):
@@ -18,12 +20,3 @@ class OrderForm(FlaskForm):
     products = StringField('Products', validators=[InputRequired()])
     quantities = StringField('Quantities', validators=[InputRequired()])
     submit = SubmitField('Place Order')
-
-
-
-
-
-
-
-
-
