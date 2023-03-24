@@ -1,0 +1,14 @@
+.market-header {
+    font-family: 'Roboto', sans-serif;
+    font-weight: 700;
+    font-size: 48px;
+    margin-bottom: 50px;
+}
+
+input[type="number"] {
+    max-width: 80px;
+}
+
+
+
+  

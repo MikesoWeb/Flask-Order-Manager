@@ -2,6 +2,40 @@
 
 {% block content %}
 
-<h1 class="text-center">Здесь будет логин форма</h1>
+
+<div class="container">
+
+    <h3 class="text-center">Вход в аккаунт</h3>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+    {% for category, message in messages %}
+    <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+        {{ message }}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    {% endfor %}
+    {% endif %}
+    {% endwith %}
+    <form method="POST" class="form-signin" style="max-width: 600px; margin: 0 auto;">
+        {{ form.csrf_token }}
+        <div class="form-group">
+            {{ form.email(class="form-control", placeholder="Введите email", autofocus=true) }}
+        </div>
+        <div class="form-group">
+            {{ form.password(class="form-control", placeholder="Введите пароль") }}
+        </div>
+        <div class="form-group d-flex justify-content-between align-items-center">
+            <div class="form-check">
+                {{ form.remember_me(class="form-check-input") }}
+                {{ form.remember_me.label(class="form-check-label") }}
+            </div>
+            <button type="submit" class="btn btn-success">Войти</button>
+        </div>
+    </form>
+
+</div>
 
 {% endblock %}

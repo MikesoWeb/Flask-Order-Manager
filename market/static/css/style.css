@@ -1,26 +1,88 @@
-
-.footer {
+/* Основные стили */
+h3 {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    font-size: 36px;
+    margin-top: 40px;
+    margin-bottom: 20px;
+    text-align: center;
+    text-transform: uppercase;
+  }
+  
+  .form-signin {
+    background-color: #f2f2f2;
+    padding: 20px;
+    border-radius: 10px;
+  }
+  
+  .form-signin .form-group {
+    margin-bottom: 20px;
+  }
+  
+  .form-signin .form-check-label {
+    margin-left: 5px;
+  }
+  
+  .form-signin .btn {
+    border-radius: 5px;
+    font-size: 18px;
+  }
+  
+  .form-signin .btn:focus {
+    outline: none;
+    box-shadow: 0 0 0 0.3rem rgba(0, 123, 255, 0.25);
+  }
+  
+  .form-signin .form-group button[type=submit] {
+    width: 100px;
+  }
+  
+  
+  /* Стили подвала */
+  .footer {
     position: relative;
     bottom: 20px;
     width: 100%;
     text-align: center;
-
-
-}
-
-.order-link {
+  }
+  
+  .order-link {
     color: rgb(140, 255, 0);
     text-decoration: underline;
-}
-
-
-
-
-@media (max-width: 400px) {
-
+  }
+  
+  
+  /* Медиа-запросы */
+  @media (max-width: 400px) {
     .table td,
     .table th {
-        font-size: 0.8rem;
+      font-size: 0.8rem;
+    }
+  }
+  
+  @media only screen and (max-width: 768px) {
+    .footer {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+    }
+  }
+
+  
+  
+  @media (max-width: 400px) {
+    h3 {
+        font-size: 24px;
+    }
+    .form-group {
+        margin-bottom: 10px;
+    }
+    .btn {
+        font-size: 16px;
+    }
+    .form-signin {
+        padding: 10px;
     }
 }
 
@@ -32,3 +94,4 @@
         right: 0;
     }
 }
+  

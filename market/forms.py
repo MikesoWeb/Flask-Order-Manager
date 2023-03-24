@@ -1,9 +1,9 @@
 from flask import flash, redirect, url_for
 from flask_wtf import FlaskForm
 from wtforms import (FieldList, FloatField, FormField, HiddenField,
-                     IntegerField, StringField, SubmitField)
-from wtforms.validators import (DataRequired, InputRequired, NumberRange,
-                                Optional)
+                     IntegerField, PasswordField, StringField, SubmitField)
+from wtforms.validators import (DataRequired, Email, InputRequired, Length,
+                                NumberRange, Optional)
 
 from market.models import Product, db
 
@@ -21,3 +21,11 @@ class OrderForm(FlaskForm):
     quantities = StringField('Quantities', validators=[InputRequired()])
     submit = SubmitField('Place Order')
 
+
+from wtforms import BooleanField
+
+class LoginForm(FlaskForm):
+    email = StringField('Email', validators=[DataRequired(), Email()])
+    password = PasswordField('Password', validators=[DataRequired()])
+    remember_me = BooleanField('Запомнить меня')
+    submit = SubmitField('Войти')

@@ -35,6 +35,7 @@ class MarketView(BaseView):
 
         return self.render('admin/market_list.html', products=products)
 
+
 class ProductView(ModelView):
     can_create = True
     can_edit = True
