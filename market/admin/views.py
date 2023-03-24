@@ -1,17 +1,39 @@
-from flask import url_for
+from datetime import datetime
+from flask import redirect, render_template, request, url_for
 from flask_admin.contrib.sqla import ModelView
-from flask_admin.menu import MenuLink
+from flask_admin.menu import MenuCategory, MenuLink
 from markupsafe import Markup
-
-from market.models import Order, Product
-
-
-class HomeLink(MenuLink):
-    def get_url(self):
-        return url_for('index')
+from flask_admin import expose, AdminIndexView, BaseView
+from market.models import Order, OrderProduct, Product
+from market.models import db
 
 
+class MarketView(BaseView):
+    @expose('/', methods=['GET', 'POST'])
+    def main(self):
+        if request.method == 'POST':
+            data = request.get_json()
+            user_name = data['user_name']
+            products = data['products']
+            quantities = data['quantities']
+            order = Order(user_name=user_name, created_at=datetime.now())
+            db.session.add(order)
+            db.session.commit()
 
+            for i in range(len(products)):
+                if products[i] and quantities[i] and int(quantities[i]) > 0:
+                    product = Product.query.get(products[i])
+                    quantity = quantities[i]
+                    order_product = OrderProduct(
+                        order=order, product_id=product.id, quantity=quantity)
+                    db.session.add(order_product)
+
+            db.session.commit()
+            return redirect(url_for('order_details', order_id=order.id))
+
+        products = Product.query.all()
+
+        return self.render('admin/market_list.html', products=products)
 
 class ProductView(ModelView):
     can_create = True
@@ -55,7 +77,6 @@ class OrderView(ModelView):
     def order_link_formatter(self, context, model, name):
         link = url_for('order_details', order_id=model.id, _external=True)
         return Markup(f'<a href="{link}" class="order-link">Заказ № {model.id}</a>')
-
 
     column_formatters = {
         'order_link': order_link_formatter

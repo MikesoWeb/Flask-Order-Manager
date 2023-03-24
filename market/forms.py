@@ -20,3 +20,4 @@ class OrderForm(FlaskForm):
     products = StringField('Products', validators=[InputRequired()])
     quantities = StringField('Quantities', validators=[InputRequired()])
     submit = SubmitField('Place Order')
+

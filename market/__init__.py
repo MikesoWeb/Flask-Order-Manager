@@ -1,11 +1,23 @@
-from flask import Flask
+from datetime import datetime
+from flask import Flask, redirect, request, url_for
 from flask_admin import Admin
 from flask_admin.contrib.sqla import ModelView
+from flask_admin.menu import MenuLink
 
-from market.admin.views import HomeLink, OrderView, ProductView
+from market.admin.views import OrderView, ProductView, MarketView
 from market.models import db
+from flask_admin.menu import MenuCategory, MenuLink, MenuView
+from .models import Order, OrderProduct, Product
 
-from .models import Order, Product
+from flask_admin.menu import MenuCategory
+from flask_admin import expose, AdminIndexView, BaseView
+
+
+class HomePageView(AdminIndexView):
+    @expose('/')
+    def index(self):
+        name = 'Mike1'
+        return self.render('admin/main_page.html', name=name)
 
 
 def create_app():
@@ -16,12 +28,13 @@ def create_app():
     db.init_app(app)
 
     admin = Admin(app, name='Online Market',
-                  template_mode='bootstrap3', static_url_path='/static')
+                  template_mode='bootstrap4', static_url_path='/static',
+                  index_view=HomePageView(), endpoint='admin')
 
-    admin.add_link(HomeLink(name='Главная', url='/',
-                   endpoint='index', target='_blank'))
+    admin.add_view(MarketView(name='Создать заказ', endpoint='/create_order'))
+    admin.add_view(OrderView(Order, db.session, name='Все заказы'))
+
     admin.add_view(ProductView(Product, db.session, name='Продукты'))
-    admin.add_view(OrderView(Order, db.session, name='Заказы'))
 
     return app
 
